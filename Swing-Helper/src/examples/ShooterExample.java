@@ -29,6 +29,13 @@ public class ShooterExample{
 
       Canvas canvas = new Canvas(cHeight,cWidth); // Set up canvas for graphics
 
+	  canvas.getAudioManager().setAudioPath("src/assets/audio");
+
+	  // Load game.wav audio file
+	  canvas.getAudioManager().load("bg", "gamemusic.wav");
+	  canvas.getAudioManager().load("collision", "collision.wav");
+	  canvas.getAudioManager().load("hit", "hit.wav");
+
       //DISPLAY STARTING DIRECTIONS
       canvas.drawColor(Color.BLUE);
 	  canvas.drawText("You Are the Blue Ball",10,40);
@@ -44,7 +51,8 @@ public class ShooterExample{
 	  double  startTime = (double)System.currentTimeMillis();  //Get Starting time for timer
 
       while(time < 60){ //game loop
-
+		
+		canvas.getAudioManager().get("bg").start();
 		// DRAW SHAPES
 		canvas.drawColor(Color.LIGHT_GRAY); // BACKGROUND
 		canvas.drawRect(0,0,cHeight,cWidth, true);
@@ -77,6 +85,8 @@ public class ShooterExample{
 		/***   CHECK COLLISION ****/
 		for (int i = 0; i < obsX.length; i++){
 			if (collision(ballX,ballY,ballSize,obsX[i],obsY[i],obsSize)){ // obstacle w/ player
+				canvas.getAudioManager().get("hit").setMicrosecondPosition(0);
+				canvas.getAudioManager().get("hit").start();
 				score--;
 				respawnObstacle(i,obsX,obsY,obsXInc,obsYInc);
 
@@ -91,7 +101,9 @@ public class ShooterExample{
 
          for (int j = 0; j < bX.length; j++){
             if (collision(bX[j],bY[j],8,obsX[i],obsY[i],obsSize)){ // obstacle w/ bullet
-               score++;
+				canvas.getAudioManager().get("collision").setMicrosecondPosition(0);
+				canvas.getAudioManager().get("collision").start();
+				score++;
                respawnObstacle(i,obsX,obsY,obsXInc,obsYInc);
             }
 
