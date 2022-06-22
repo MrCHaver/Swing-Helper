@@ -34,7 +34,7 @@ public class Canvas extends JPanel implements KeyListener {
 
     private AudioManager audioManager;
     private HashMap<String,BufferedImage> imageMap;
-    private  String key="";
+    private ArrayList<String> keys;
 
     public Canvas(int xSize,int ySize){
         super(true);
